@@ -107,8 +107,6 @@ def cconv2d_dilate(x, real_W, imag_W, dilate_rate):
 
     return channels_output
     
-
-#### LEARNING FUNCTION ####
 def learning(accrate_input,sess):
     # define placeholder for inputs to network
     
@@ -179,7 +177,7 @@ def learning(accrate_input,sess):
     print("LEARNT act coefficients ", sess.run(coeff_a1),sess.run(coeff_b1),sess.run(coeff_c1), sess.run(coeff_a2),sess.run(coeff_b2),sess.run(coeff_c2))
     return [sess.run(ker_conv_r),sess.run(ker_conv_i),sess.run(W_conv1_r),sess.run(W_conv1_i),sess.run(W_conv2_r),sess.run(W_conv2_i),sess.run(W_conv3_r),sess.run(W_conv3_i),sess.run(coeff_a1),sess.run(coeff_b1),sess.run(coeff_c1),sess.run(coeff_a2),sess.run(coeff_b2),sess.run(coeff_c2),error]   
     
-                                                            #### RECON CONVOLUTION FUNCTION ####
+                                                           
 def cnn_3layer(input_kspace,gkerr,gkeri,w1r,w1i,b1,w2r,w2i,b2,w3r,w3i,b3,acc_rate,coeff_a1,coeff_b1,coeff_c1,coeff_a2,coeff_b2,coeff_c2,sess):                 
     grap = cconv2d_dilate(input_kspace, gkerr, gkeri ,acc_rate)
     x_shift = np.int32(np.floor(kernel_last_x/2))
@@ -203,8 +201,6 @@ def cnn_3layer(input_kspace,gkerr,gkeri,w1r,w1i,b1,w2r,w2i,b2,w3r,w3i,b3,acc_rat
     print('h_conv shape = ',np.shape(h_conv3))
     return sess.run(effectiveGrappa+h_conv3), sess.run(effectiveGrappa),sess.run(h_conv3), sess.run(grap) 
 
-
-                                            ######### ----- INITIALIZE ----- ###########
 
 
 no_ACS_flag = 0;
@@ -347,11 +343,9 @@ else:
 target_x_start = np.int32(np.ceil(kernel_x_1/2) + np.floor(kernel_x_2/2) + np.floor(kernel_last_x/2) -1);  # remember every indicies need to -1 in python
 target_x_end = np.int32(ACS_dim_X - target_x_start -1)
 
-################################ ----- initialize done, lets RAKI! ----- #######################################
 
 time_ALL_start = time.time()
 
-################################ ----- LEARNING PART! ----- #######################################
 
 [ACS_dim_X, ACS_dim_Y, ACS_dim_Z] = np.shape(ACS_re)
 ACS = np.reshape(ACS_re, [1,ACS_dim_X, ACS_dim_Y, ACS_dim_Z]) # Batch, X, Y, Z
@@ -419,9 +413,6 @@ w2_allr = weightfile['w2r'] # get kspace
 w2_alli = weightfile['w2i'] # get kspace
 w3_allr = weightfile['w3r'] # get kspace
 w3_alli = weightfile['w3i'] # get kspace
-
-
-                                                        ################ ----- RECON PART! ----- ################
 
 
 kspace_recon_all = np.copy(kspace_all)
